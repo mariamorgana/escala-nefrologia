@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Escala de Nefrologia — Hospital do Subúrbio</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#eef3f7;color:#1a2a3a;-webkit-text-size-adjust:100%;}
+.header{background:linear-gradient(135deg,#0f4a38,#1a6b5a,#2d8c6e);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;}
+.hosp{font-size:17px;font-weight:900;color:#fff;}
+.header-right{text-align:right;}
+.header-right b{display:block;font-size:13px;color:#fff;}
+.header-right span{font-size:10px;color:rgba(255,255,255,0.65);}
+.abas{background:#fff;border-bottom:2px solid #e0e8ee;display:flex;}
+.aba{flex:1;padding:13px 0;border:none;background:none;font-size:14px;font-weight:700;color:#8aacb8;border-bottom:3px solid transparent;cursor:pointer;-webkit-appearance:none;}
+.aba.on{color:#1a6b5a;border-bottom:3px solid #1a6b5a;}
+.pg{display:none;padding:14px 10px;}
+.pg.on{display:block;}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.btn-nav{background:#1a6b5a;color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:18px;font-weight:700;cursor:pointer;-webkit-appearance:none;}
+.mes-txt{font-size:19px;font-weight:800;color:#1a6b5a;text-align:center;}
+.ano-txt{font-size:12px;color:#7a9faa;text-align:center;}
+.sem{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;}
+.sl{text-align:center;font-size:10px;font-weight:700;letter-spacing:.5px;padding:4px 0;text-transform:uppercase;color:#6b8fa8;}
+.sl.d{color:#cc2229;}.sl.s{color:#1565a8;}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.dc{background:#fff;border:1px solid #dde6ef;border-radius:7px;padding:5px 4px;min-height:82px;position:relative;}
+.dc.hj{background:#e0f4f0;border:2px solid #1a6b5a;}
+.dc.fs{border-color:#f0d8d8;}
+.dn{font-size:11px;font-weight:800;color:#1a2a3a;margin-bottom:2px;}
+.dn.hj{color:#1a6b5a;}.dn.d{color:#cc2229;}.dn.s{color:#1565a8;}
+.mn{font-size:10px;font-weight:700;line-height:1.2;margin-bottom:1px;}
+.wl{display:inline-flex;align-items:center;gap:2px;font-size:9px;color:#25d366;font-weight:700;text-decoration:none;background:#f0fff4;border-radius:4px;padding:2px 4px;margin-bottom:2px;}
+.vz{font-size:10px;color:#ccc;margin-top:4px;}
+.leg{margin-top:12px;background:#fff;border-radius:10px;border:1px solid #dde6ef;padding:12px 13px;}
+.leg-t{font-size:10px;font-weight:700;color:#1a6b5a;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+.leg-l{display:flex;flex-wrap:wrap;gap:7px;}
+.li{display:flex;align-items:center;gap:5px;background:#f5f9fa;border-radius:6px;padding:4px 9px;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ln{font-size:11px;font-weight:600;color:#2c5364;}
+.lw{color:#25d366;text-decoration:none;display:flex;align-items:center;margin-left:2px;}
+/* médicos */
+.mc{background:#fff;border-radius:12px;border:1px solid #dde6ef;overflow:hidden;}
+.mh{padding:13px 18px;background:#f0f7f9;border-bottom:1px solid #dde6ef;font-weight:700;color:#1a6b5a;font-size:14px;}
+.mr{display:flex;align-items:center;padding:13px 18px;border-bottom:1px solid #f0f4f8;gap:11px;}
+.mr:last-child{border-bottom:none;}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;flex-shrink:0;}
+.mi{flex:1;}
+.mn2{font-weight:700;font-size:14px;color:#1a2a3a;}
+.mt{font-size:11px;color:#7a8fa0;margin-top:1px;}
+.wb{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#25d366;font-weight:700;text-decoration:none;background:#f0fff4;border-radius:6px;padding:6px 11px;}
+svg.wi{width:11px;height:11px;vertical-align:middle;fill:#25d366;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="hosp">Hospital do Subúrbio</div>
+  <div class="header-right"><b>Escala de Nefrologia</b><span>Plantão Mensal</span></div>
+</div>
+
+<div class="abas">
+  <button class="aba on" id="tab-esc" onclick="showTab('esc')">📅 Escala</button>
+  <button class="aba" id="tab-med" onclick="showTab('med')">👨‍⚕️ Médicos</button>
+</div>
+
+<div id="pg-esc" class="pg on">
+  <div class="nav">
+    <button class="btn-nav" onclick="mudaMes(-1)">&#8249;</button>
+    <div><div class="mes-txt" id="mnome"></div><div class="ano-txt" id="mano"></div></div>
+    <button class="btn-nav" onclick="mudaMes(1)">&#8250;</button>
+  </div>
+  <div class="sem">
+    <div class="sl d">DOM</div><div class="sl">SEG</div><div class="sl">TER</div>
+    <div class="sl">QUA</div><div class="sl">QUI</div><div class="sl">SEX</div><div class="sl s">SÁB</div>
+  </div>
+  <div class="cal" id="cal"></div>
+  <div class="leg"><div class="leg-t">Legenda</div><div class="leg-l" id="legenda"></div></div>
+</div>
+
+<div id="pg-med" class="pg">
+  <div class="mc">
+    <div class="mh">Nefrologistas — Hospital do Subúrbio</div>
+    <div id="medlista"></div>
+  </div>
+</div>
+
+<script>
+var WI='<svg class="wi" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+
+var M={
+  Amanda: {nome:"Dra. Amanda Andrada",tel:"5571991608000",cor:"#1b7a8a"},
+  Bianca: {nome:"Dra. Bianca Mineiro",tel:"5571991999511",cor:"#7b5ea7"},
+  Gustavo:{nome:"Dr. Gustavo Silva",  tel:"5571986360581",cor:"#2e7d52"},
+  Joao:   {nome:"Dr. João Flavio",    tel:"5571991082970",cor:"#b45a00"},
+  Maria:  {nome:"Dra. Maria Tavares", tel:"5571991850432",cor:"#c0392b"},
+  Natalia:{nome:"Dra. Natália Walsh", tel:"5571985387625",cor:"#1565a8"}
+};
+
+var EJ={
+  1:["Bianca"],2:["Maria","Natalia"],3:["Amanda","Joao"],
+  4:["Amanda"],5:["Amanda"],6:["Gustavo"],7:["Amanda"],
+  8:["Bianca"],9:["Bianca","Natalia"],10:["Maria","Joao"],
+  11:["Bianca"],12:["Maria"],13:["Gustavo"],14:["Amanda"],
+  15:["Bianca"],16:["Maria","Natalia"],17:["Bianca","Joao"],
+  18:["Bianca"],19:["Bianca"],20:["Gustavo"],21:["Amanda"],
+  22:["Bianca"],23:["Maria"],24:["Bianca","Joao"],
+  25:["Gustavo"],26:["Gustavo"],27:["Gustavo"],28:["Amanda"],
+  29:["Bianca"],30:["Natalia"],31:["Bianca","Joao"]
+};
+
+var MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+var mes=6,ano=2025;
+var hj=new Date();
+
+function waUrl(tel,nome){
+  return "https://wa.me/"+tel+"?text="+encodeURIComponent("Olá, "+nome+"! Estou entrando em contato pelo serviço de Nefrologia do Hospital do Subúrbio.");
+}
+
+function getDia(d){
+  if(mes===6&&ano===2025) return (EJ[d]||[]);
+  return [];
+}
+
+function showTab(t){
+  document.getElementById('pg-esc').className='pg'+(t==='esc'?' on':'');
+  document.getElementById('pg-med').className='pg'+(t==='med'?' on':'');
+  document.getElementById('tab-esc').className='aba'+(t==='esc'?' on':'');
+  document.getElementById('tab-med').className='aba'+(t==='med'?' on':'');
+}
+
+function mudaMes(d){
+  mes+=d;
+  if(mes>11){mes=0;ano++;}
+  if(mes<0){mes=11;ano--;}
+  render();
+}
+
+function render(){
+  document.getElementById('mnome').textContent=MESES[mes];
+  document.getElementById('mano').textContent=ano;
+  var dias=new Date(ano,mes+1,0).getDate();
+  var pd=new Date(ano,mes,1).getDay();
+  var html='';
+  for(var i=0;i<pd;i++) html+='<div></div>';
+  for(var d=1;d<=dias;d++){
+    var chs=getDia(d);
+    var ds=(pd+d-1)%7;
+    var dom=ds===0,sab=ds===6;
+    var isH=d===hj.getDate()&&mes===hj.getMonth()&&ano===hj.getFullYear();
+    var cc='dc'+(isH?' hj':((dom||sab)?' fs':''));
+    var nc='dn'+(isH?' hj':(dom?' d':(sab?' s':'')));
+    var inner='';
+    if(chs.length===0){inner='<div class="vz">—</div>';}
+    else{
+      for(var j=0;j<chs.length;j++){
+        var ch=chs[j];var med=M[ch];
+        if(!med)continue;
+        var fn=med.nome.replace(/Dr[a]?\.\s*/,'').split(' ')[0];
+        inner+='<div class="mn" style="color:'+med.cor+'">'+fn+'</div>';
+        inner+='<a class="wl" href="'+waUrl(med.tel,med.nome)+'">'+WI+' WA</a>';
+      }
+    }
+    html+='<div class="'+cc+'"><div class="'+nc+'">'+d+'</div>'+inner+'</div>';
+  }
+  document.getElementById('cal').innerHTML=html;
+
+  var lh='';
+  var keys=Object.keys(M);
+  for(var k=0;k<keys.length;k++){
+    var ck=keys[k];var med=M[ck];
+    lh+='<div class="li"><div class="dot" style="background:'+med.cor+'"></div><span class="ln">'+med.nome+'</span><a class="lw" href="'+waUrl(med.tel,med.nome)+'">'+WI+'</a></div>';
+  }
+  document.getElementById('legenda').innerHTML=lh;
+}
+
+function renderMed(){
+  var keys=Object.keys(M);var h='';
+  for(var i=0;i<keys.length;i++){
+    var ck=keys[i];var med=M[ck];
+    var ini=med.nome.replace(/Dr[a]?\.\s*/,'').split(' ').map(function(p){return p[0];}).slice(0,2).join('');
+    h+='<div class="mr"><div class="av" style="background:'+med.cor+'">'+ini+'</div>';
+    h+='<div class="mi"><div class="mn2">'+med.nome+'</div><div class="mt">+'+med.tel+'</div></div>';
+    h+='<a class="wb" href="'+waUrl(med.tel,med.nome)+'">'+WI+' WhatsApp</a></div>';
+  }
+  document.getElementById('medlista').innerHTML=h;
+}
+
+render();
+renderMed();
+</script>
+</body>
+</html>
