@@ -121,6 +121,15 @@ var EA={
   27:["Maria","Natalia"],28:["Bianca","Joao"],29:["Gustavo"],30:["Gustavo"],
   31:["Gustavo"]
 };
+var ES={
+  1:["Amanda"],2:["Bianca"],3:["Natalia","Maria"],4:["Bianca","Joao"],
+  5:["Amanda"],6:["Amanda"],7:["Gustavo"],8:["Amanda"],9:["Bianca"],
+  10:["Natalia","Maria"],11:["Joao","Bianca"],12:["Bianca"],13:["Maria"],
+  14:["Gustavo"],15:["Amanda"],16:["Bianca"],17:["Natalia","Bianca"],
+  18:["Joao","Bianca"],19:["Bianca"],20:["Bianca"],21:["Gustavo"],
+  22:["Amanda"],23:["Bianca"],24:["Natalia","Bianca"],25:["Joao","Bianca"],
+  26:["Amanda"],27:["Amanda"],28:["Gustavo"],29:["Amanda"],30:["Bianca"]
+};
 var MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 var mes=6,ano=2026;
 var hj=new Date();
@@ -132,6 +141,7 @@ function waUrl(tel,nome){
 function getDia(d){
   if(mes===6&&ano===2026) return (EJ[d]||[]);
   if(mes===7&&ano===2026) return (EA[d]||[]);
+  if(mes===8&&ano===2026) return (ES[d]||[]);
   return [];
 }
 
